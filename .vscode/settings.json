@@ -1,0 +1,13 @@
+{
+  "editor.insertSpaces": true,
+  "editor.renderWhitespace": "all",
+  "[typescript]": {
+    "editor.tabSize": 2,
+  },
+  "[json]": {
+    "editor.tabSize": 2,
+  },
+  "[javascript]": {
+    "editor.tabSize": 2,
+  },
+}

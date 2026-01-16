@@ -1,0 +1,24 @@
+{
+  "name": "subjects",
+  "version": "0.0.1",
+  "description": "first time quiz in Typescript oop class",
+  "keywords": [
+    "oop",
+    "typescript",
+    "kmitl",
+    "42bangkok",
+    "classroom"
+  ],
+  "license": "ISC",
+  "author": "viruskizz,nxwbtk",
+  "type": "commonjs",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}

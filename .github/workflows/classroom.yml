@@ -1,0 +1,62 @@
+name: Autograding
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  checks: write
+  actions: read
+  contents: read
+
+jobs:
+  autograde:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout student repo
+      - name: Checkout student submission
+        uses: actions/checkout@v3
+
+      # 2. Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'npm'
+      # 3. Clone Test
+      - name: Clone GitLab tester
+        run: |
+          git clone https://oauth2:${GITLAB_TOKEN}@gitlab.com/42bangkok-classroom/typescript-oop-quiz-2-sec35-tester.git tester
+        env:
+          GITLAB_TOKEN: ${{ secrets.OOP_CLASSROOM_GITLAB_TOKEN }}
+      # 4. Setup files
+      - name: setup files
+        run: |
+          echo "=== Setup files ==="
+          tree ./tester
+          cp -r tester/.github/* .github/
+          # Copy test files and fixtures
+          rsync -av \
+            --include="*/" \
+            --include="*.test.ts" \
+            --include="__fixtures__/**" \
+            --exclude="*" \
+            tester/src/ src/
+          cp tester/package.json .
+          cp tester/jest.config.js .
+          rm -r tester
+          echo "=== Finish Setup files ==="
+          tree ./src/
+      # 4. Install dependencies
+      - name: Install dependencies
+        run: npm install
+      # 5. Run tests with Jest
+      # - name: Run Jest tests
+      #   run: npx jest
+      #   continue-on-error: true
+      # 6. Autograding action
+      - name: Autograding
+        uses: education/autograding@v1
